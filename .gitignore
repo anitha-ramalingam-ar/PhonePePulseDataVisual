@@ -241,6 +241,4 @@ FakesAssemblies/
 gallery.xml
 project.lock.json
 
-extracted_file/
-
 # End of .gitignore
