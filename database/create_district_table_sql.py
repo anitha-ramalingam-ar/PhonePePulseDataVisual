@@ -623,7 +623,7 @@ districts_of_lakshadweep = {
 
 districts_of_delhi = {
     "South District": "South",
-    "Central District": "Central",
+    "Central District": "Central Delhi",
     "New Delhi District": "New Delhi",
     "West District": "West",
     "South West District": "South West",
@@ -687,8 +687,15 @@ def insert_static_district_values_table(cursor):
     insert_district_values(cursor, 'ladakh', districts_of_ladakh)
 
 
-def get_district_id(cursor, district_name):
+def get_district_id_by_key(cursor, district_name):
     query = "SELECT id FROM Districts WHERE district_key = %s;"
+    cursor.execute(query, (district_name,))
+    result = cursor.fetchone()
+    return result[0] if result else None
+
+
+def get_district_id_by_value(cursor, district_name):
+    query = "SELECT id FROM Districts WHERE district_value = %s;"
     cursor.execute(query, (district_name,))
     result = cursor.fetchone()
     return result[0] if result else None

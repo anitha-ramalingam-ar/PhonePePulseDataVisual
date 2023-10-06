@@ -1,4 +1,5 @@
-from database.create_district_table_sql import get_district_id
+from database.create_district_table_sql import get_district_id_by_key
+from database.create_state_table_sql import get_state_id
 from map.model.map_user_model import process_map_user_files
 
 
@@ -10,18 +11,18 @@ def map_user_data_conversion(cursor):
     # Step 2: Convert JSON to Object and insert each state with quarter record into table
     for data in map_user_data:
         for district_name, hover_data_obj in data.data.hoverData.items():
-            district_id = get_district_id(cursor, district_name)
+            district_id = get_district_id_by_key(cursor, district_name)
             if district_id is None:
                 print(f"Error: District {district_name} not found in the database.")
                 continue
-
+            state_id = get_state_id(cursor, data.state_name)
             registered_user = hover_data_obj.registeredUsers
             app_opens = hover_data_obj.appOpens
             year_with_quarter = data.year_with_quarter
             query = """
                 INSERT INTO MapUserDetails 
-                (district_id, registered_user, app_opens, year_with_quarter) 
-                VALUES (%s, %s, %s, %s);
+                (district_id, state_id, registered_user, app_opens, year_with_quarter) 
+                VALUES (%s, %s, %s, %s, %s);
                 """
 
-            cursor.execute(query, (district_id, registered_user, app_opens, year_with_quarter))
+            cursor.execute(query, (district_id, state_id, registered_user, app_opens, year_with_quarter))
