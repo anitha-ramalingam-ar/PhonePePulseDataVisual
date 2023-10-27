@@ -11,7 +11,7 @@ repo_url = "https://github.com/PhonePe/pulse.git"
 destination = "extracted_file"
 
 if __name__ == '__main__':
-    # Step 1: Clone the PhonePe GitHub repo and save that into extracted_file folder
+    # Step 1: Clone the PhonePe GitHub repo and save that files into extracted_file folder
     clone_github_repo(repo_url, destination)
 
     # Step 2: Create aggregated, type and state tables
